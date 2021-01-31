@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "649266336304",
+    "firebase_url": "https://quicky-user-default-rtdb.firebaseio.com",
+    "project_id": "quicky-user",
+    "storage_bucket": "quicky-user.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649266336304:android:28a6cbd3d76042199093f5",
+        "android_client_info": {
+          "package_name": "com.hookie.twitter.hookie_twitter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649266336304-d70eqgjavtq6le7dmrtdvqs5og539c7u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcnyoJJaWV57NAM3raEPsSRM7IR19AJZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649266336304-d70eqgjavtq6le7dmrtdvqs5og539c7u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

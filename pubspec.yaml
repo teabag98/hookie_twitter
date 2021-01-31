@@ -1,0 +1,118 @@
+name: hookie_twitter
+description: Hookie(Twitter) App
+
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+ # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.0
+
+  # Shared prefs to store info
+  shared_preferences: ^0.5.10
+
+  # Logger
+  logger: ^0.9.1
+
+  # Service provider
+  get_it: ^5.0.3
+
+  # OkToast
+  oktoast: ^2.3.2
+
+  # Validation utilities
+  validators: ^2.0.0+1
+
+  # Auto resize text widget
+  auto_size_text: ^2.1.0
+
+  # Avoid keyboard from overlapping text fields
+  keyboard_avoider: ^0.1.2
+
+  # Google maps
+  google_maps_flutter: ^1.1.0
+
+  # Email validator
+  email_validator: ^1.0.0
+
+  # HTTP client
+  http: ^0.12.2
+
+  # To show loading
+  flutter_easyloading: ^2.2.2
+
+  # resposive ui
+  sizer: ^1.1.8
+
+  # Get current location
+  location: ^3.0.2
+
+  # session token 
+  uuid: 2.2.2
+
+  # Helps to get location
+  geocoding: ^1.0.5
+
+  # To load svg
+  flutter_svg: ^0.18.0
+
+  # circular checkbox
+  circular_check_box: ^1.0.4
+
+  # To format number input 
+  flutter_masked_text: ^0.8.0
+
+  # To request for permission
+  permission_handler: ^5.0.1+1
+
+  # To display html
+  flutter_html: ^1.0.0
+
+  # display image
+  cached_network_image: ^2.5.0
+
+  # pick image
+  image_picker: ^0.6.7+22
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/
+  #   - images/a_dot_ham.jpeg
+
+
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
