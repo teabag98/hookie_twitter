@@ -231,7 +231,7 @@ class _AccountScreenState extends State<AccountScreen> {
     ListTile(
     title:IList4(text: "${strings.get(59)}:", // "Username",
     ),
-    subtitle:Text("${user.phone}"??'0115435644')
+    subtitle:Text("${user.phone}"??'xxx435644')
     ),
     SizedBox(height: 10),
     ]

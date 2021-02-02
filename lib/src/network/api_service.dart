@@ -76,6 +76,8 @@ class ApiService {
             apiResponse['data']['is_profile_complete'].toString();
         user.createdAt = apiResponse['data']['date_joined'];
         user.profilePic = apiResponse['data']['profile_pic'];
+        user.latitude = apiResponse['data']['latitude'].toString();
+        user.longitude = apiResponse['data']['longitude'].toString();
 
         await db.setUser(user);
 

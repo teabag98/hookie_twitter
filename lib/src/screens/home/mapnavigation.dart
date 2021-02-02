@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:ffi';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hookie_twitter/src/appstate_container.dart';
 import 'package:hookie_twitter/src/models/user.dart';
+import 'package:hookie_twitter/src/network/api_service.dart';
 import 'package:hookie_twitter/src/screens/home/menu/drawer.dart';
+import 'package:hookie_twitter/src/service_locator.dart';
+import 'package:hookie_twitter/src/utils/sharedprefsutil.dart';
 import 'package:location/location.dart';
+import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
 
 class HomeScreen extends StatefulWidget {
+
   final Function(String) callback;
   final Color color;
   HomeScreen({this.color = Colors.black, this.callback});
@@ -20,28 +27,45 @@ class HomeScreen extends StatefulWidget {
 }
 
 
-var uuid = Uuid();
+// var uuid = Uuid();
 
 class _HomeScreenState extends State<HomeScreen> {
-  static User user = User();
+  static var user = User();
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+
+  static Logger log = sl.get<Logger>();
+  // instantiate shared prefs
+  static SharedPrefsUtil db = sl.get<SharedPrefsUtil>();
+
   BitmapDescriptor locIcon;
+
+  ApiService apiService;
+
+  var markerIdVal = user.id.toString();
+ static  MarkerId markerId ;
 
 
 @override
 void initState(){
   super.initState();
+  apiService = ApiService();
   location = new Location();
   location.onLocationChanged.listen((LocationData liveLocation) {
       currentLocation = liveLocation;
 
+      markerId = MarkerId(markerIdVal);
+      db.getUser().then((value) => user = value);
+      bool _state;
+      db.get('status').then((value) => value = _state);
 
-        updatePinOnMap();
+       apiService.updateLocation(state:_state ,latitude: liveLocation.latitude.toString(),longitude: liveLocation.longitude.toString());
+        // updatePinOnMap();
+      _addPinOnMap();
+        log.d('location' ,liveLocation.longitude);
 
-
-     
   });
-  BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(10,10)), 'assets/images/my_locaion_pin.png')
-  .then((value) {locIcon=value;});
+    BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(10,10)), 'assets/images/my_locaion_pin.png')
+        .then((value) {locIcon=value;});
 
 }
 
@@ -53,7 +77,7 @@ void dispose(){
 
 void updatePinOnMap()async{
   final GoogleMapController controller = await _controler.future;
-  var pinPosition = LatLng(currentLocation.latitude, currentLocation.longitude);
+  var pinPosition = LatLng(user.latitude as double, user.longitude as double);
 
   setState(() {
     CameraPosition cameraPosition = CameraPosition(
@@ -65,23 +89,45 @@ void updatePinOnMap()async{
 
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-    _marker.removeWhere((element) => element.markerId.value == uuid.toString());
-    _marker.add(Marker(
-        markerId: MarkerId(uuid.toString()),
-        position: pinPosition,
-        icon: locIcon ));
+    markers.removeWhere((key, value) => false);
+    _addPinOnMap();
   });
 
 }
 
-showPinOnMap(){
-  var pinPosition = LatLng(currentLocation.latitude, currentLocation.longitude);
-  _marker.add(Marker(
-    markerId:MarkerId(uuid.toString()),
-    position: pinPosition,
-    icon:locIcon
-  ));
-}
+// showPinOnMap(){
+//   var pinPosition = LatLng(currentLocation.latitude, currentLocation.longitude);
+//   markers.putIfAbsent(markerId ,Marker(
+//     markerId:MarkerId(uuid.toStlocationring()),
+//     position: pinPosition,
+//     icon:locIcon
+//   ));
+// }
+
+  void _addPinOnMap() {
+
+    var latitude = double.parse(user.latitude);
+    var longitude = double.parse(user.longitude);
+
+    // creating a new MARKER for each near hookie
+    final Marker marker = Marker(
+      markerId: markerId,
+      icon: locIcon,
+      position: LatLng(
+        latitude  + sin(user.id * pi / 6.0) / 20.0,
+        longitude + cos(user.id * pi / 6.0) / 20.0,
+      ),
+      infoWindow: InfoWindow(title: user.username, snippet: '*'),
+      onTap: () {
+        // _onMarkerTapped(markerId);
+      },
+    );
+
+    setState(() {
+      // adding a new marker to map
+      markers[markerId] = marker;
+    });
+  }
 
 
   var windowWidth;
@@ -96,7 +142,7 @@ showPinOnMap(){
   Location location ;
 
    Completer<GoogleMapController> _controler = new Completer();
-  Set<Marker> _marker = Set<Marker>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -104,16 +150,19 @@ showPinOnMap(){
     windowHeight = MediaQuery.of(context).size.height;
       return GoogleMap(
         myLocationEnabled: true, // For showing your current location on the map with a blue dot.
-        markers: _marker,
+        markers: Set<Marker>.of(markers.values),
         compassEnabled: false,
         initialCameraPosition: _innitialLoc,
         mapType: MapType.normal,
           zoomGesturesEnabled: true,
           zoomControlsEnabled: true, // Whether to show zoom controls (only applicable for Android).
           myLocationButtonEnabled: false, // T
+        onCameraMove: (CameraPosition cameraPosition){
+          return cameraPosition.zoom;
+        },
         onMapCreated: (GoogleMapController controller) {
           _controler.complete(controller);
-          showPinOnMap();
+          _addPinOnMap();
         },
         onTap: (_){},
         onLongPress: (_){},

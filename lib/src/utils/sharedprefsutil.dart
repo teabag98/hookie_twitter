@@ -44,6 +44,8 @@ class SharedPrefsUtil {
     userList.add(user.createdAt.toString());
     userList.add(user.profileComplete.toString());
     userList.add(user.referralCode.toString());
+    userList.add(user.latitude.toString());
+    userList.add(user.longitude.toString());
 
     return await set(user_account, userList);
   }
@@ -62,6 +64,9 @@ class SharedPrefsUtil {
       user.createdAt = userList.elementAt(5);
       user.profileComplete = userList.elementAt(6);
       user.referralCode = userList.elementAt(7);
+      user.latitude = userList.elementAt(8);
+      user.longitude = userList.elementAt(9);
+
     }
 
     return user;

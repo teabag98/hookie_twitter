@@ -44,9 +44,17 @@ class _IList5State extends State<IList5> {
             leading: _icon,
             trailing: Switch(
               onChanged: (bool value){
-                setState(() {
-                  _notify = value;
-                });
+                if(value == true){
+                  setState(() {
+                    _notify = true;
+                  });
+                }
+                if(value == false){
+                  setState(() {
+                    _notify = false;
+                  });
+                }
+
                 if (widget.press != null)
                   widget.press(value);
               },

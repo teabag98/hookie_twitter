@@ -8,6 +8,8 @@ class User {
     this.createdAt,
     this.profileComplete,
     this.profilePic,
+    this.latitude,
+    this.longitude
   });
 
   int id;
@@ -17,5 +19,7 @@ class User {
   String referralCode;
   String createdAt;
   String profilePic;
+  String latitude;
+  String longitude;
   String profileComplete;
 }

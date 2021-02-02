@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hookie_twitter/src/appstate_container.dart';
 import 'package:hookie_twitter/src/models/user.dart';
+import 'package:hookie_twitter/src/service_locator.dart';
+import 'package:hookie_twitter/src/utils/sharedprefsutil.dart';
 import 'package:hookie_twitter/src/widgets/iList6.dart';
 import 'package:hookie_twitter/src/widgets/iListX.dart';
 import 'package:hookie_twitter/src/widgets/iline.dart';
@@ -190,13 +192,25 @@ class Menu extends StatelessWidget {
                       )
                   )
               ),
-
+              initState: true,
               text: "Online/ Offline", // Notifications
               textStyle: StateContainer.of(context).theme.text16bold,
               activeColor: StateContainer.of(context).theme.colorPrimary,
               inactiveTrackColor: StateContainer.of(context).theme.colorGrey,
               press: (bool online) {
-                showToast('Online/ Offline');
+                if(online == true){
+                  showToast('Online');
+                  final SharedPrefsUtil db = sl.get<SharedPrefsUtil>();
+                  db.set('status', true);
+                   build(context);
+                }
+                if(online == false){
+                  final SharedPrefsUtil db = sl.get<SharedPrefsUtil>();
+                  db.set('status', false);
+                  build(context);
+                }
+
+
               },
             ),
             _item(11, "Terms of Service", "assets/images/help.png"),
