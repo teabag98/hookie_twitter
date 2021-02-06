@@ -59,7 +59,7 @@ void initState(){
       db.get('status').then((value) => value = _state);
 
        apiService.updateLocation(state:_state ,latitude: liveLocation.latitude.toString(),longitude: liveLocation.longitude.toString());
-        // updatePinOnMap();
+        updatePinOnMap();
       _addPinOnMap();
         log.d('location' ,liveLocation.longitude);
 
@@ -77,7 +77,7 @@ void dispose(){
 
 void updatePinOnMap()async{
   final GoogleMapController controller = await _controler.future;
-  var pinPosition = LatLng(user.latitude as double, user.longitude as double);
+  var pinPosition = LatLng(double.parse(user.latitude) , double.parse(user.longitude ));
 
   setState(() {
     CameraPosition cameraPosition = CameraPosition(
@@ -120,6 +120,7 @@ void updatePinOnMap()async{
       infoWindow: InfoWindow(title: user.username, snippet: '*'),
       onTap: () {
         // _onMarkerTapped(markerId);
+
       },
     );
 
@@ -166,8 +167,7 @@ void updatePinOnMap()async{
         },
         onTap: (_){},
         onLongPress: (_){},
-
-
+        
       );
   }
 }

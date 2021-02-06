@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutterwave/core/flutterwave.dart';
+import 'package:flutterwave/models/responses/charge_response.dart';
+import 'package:flutterwave/utils/flutterwave_constants.dart';
+import 'package:flutterwave/utils/flutterwave_currency.dart';
 import 'package:hookie_twitter/src/appstate_container.dart';
 import 'package:hookie_twitter/src/models/user.dart';
+import 'package:hookie_twitter/src/payment/PaymentSubscriptions.dart';
 import 'package:hookie_twitter/src/service_locator.dart';
 import 'package:hookie_twitter/src/utils/sharedprefsutil.dart';
 import 'package:hookie_twitter/src/widgets/iList6.dart';
 import 'package:hookie_twitter/src/widgets/iListX.dart';
+import 'package:hookie_twitter/src/widgets/ibutton.dart';
 import 'package:hookie_twitter/src/widgets/iline.dart';
 import 'package:hookie_twitter/src/widgets/ilist5.dart';
 import 'package:oktoast/oktoast.dart';
 
 class Menu extends StatelessWidget {
+
   Menu({this.context, this.callback});
   @required
   final BuildContext context;
@@ -17,6 +24,8 @@ class Menu extends StatelessWidget {
   final Function(String) callback;
 
   static User user = User();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +61,7 @@ class Menu extends StatelessWidget {
                       ),
                       child: CircleAvatar(
                         backgroundImage: AssetImage(
-                            user.profilePic ?? 'assets/images/user.jpg'),
+                            'assets/images/useAvator.png'),
                         radius: 35,
                       ),
                       margin: EdgeInsets.only(
@@ -213,47 +222,27 @@ class Menu extends StatelessWidget {
 
               },
             ),
-            _item(11, "Terms of Service", "assets/images/help.png"),
+            // _item(11, "Terms of Service", "assets/images/help.png"),
 
-            ILine(),
+
+            Container(
+              width: MediaQuery.of(context).size.width*0.3,
+              child: IButton(
+                text: 'Subscribe',
+                pressButton: () {
+                  // Navigator.of(context).pop();
+                   Navigator.push(context, MaterialPageRoute(builder:(context) => SubscriptionPayment()));
+
+                },
+                color: Colors.cyan,
+                colorText: Colors.white,
+
+              ),
+            )
           ],
         ),
       ),
     );
-  }
-
-  _onMenuClickItem(int id) {
-    print("User click menu item: $id");
-    switch (id) {
-      case 1: // home
-        callback("home");
-        break;
-      case 2: // notifications
-        // route.push(context, "/notifications");
-        break;
-      case 3: // My Orders
-        // callback("orders");
-        break;
-      case 4: // Wish List
-        // callback("favorites");
-        break;
-      case 7: // Help
-        // route.push(context, "/help");
-        break;
-      case 8: // Settings
-        // callback("account");
-        break;
-      case 9: // Language
-        // route.pushLanguage(context, callback);
-        break;
-      // case 10: // dark & light mode
-      //   theme.changeDarkMode();
-      //   callback("redraw");
-      //   break;
-      // case 11: // term of service
-      //   route.push(context, "/term");
-      //   break;
-    }
   }
 
   _item(int id, String name, String imageAsset) {
@@ -283,7 +272,6 @@ class Menu extends StatelessWidget {
               splashColor: Colors.grey[400],
               onTap: () {
                 // Navigator.pop(context);
-                _onMenuClickItem(id);
               }, // needed
             ),
           ),

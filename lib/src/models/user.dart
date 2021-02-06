@@ -3,6 +3,7 @@ class User {
     this.id,
     this.username,
     this.email,
+    this.gender,
     this.phone,
     this.referralCode,
     this.createdAt,
@@ -15,6 +16,7 @@ class User {
   int id;
   String username;
   String email;
+  String gender;
   String phone;
   String referralCode;
   String createdAt;

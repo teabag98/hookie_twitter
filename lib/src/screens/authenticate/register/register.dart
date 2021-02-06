@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hookie_twitter/src/appstate_container.dart';
+import 'package:hookie_twitter/src/common/theme.dart';
 import 'package:hookie_twitter/src/network/api_service.dart';
 import 'package:hookie_twitter/src/service_locator.dart';
 import 'package:hookie_twitter/src/utils/nav_service.dart';
@@ -28,9 +29,12 @@ class _RegisterState extends State<Register> {
   final TextEditingController defaultLocation = TextEditingController();
   final TextEditingController editControllerPhone = TextEditingController();
 
+  String dropdownValue = 'Gender';
+  String genderVal = '0';
+
   _submit() async {
     if (editControllerName.value.text.isEmpty ||
-        editControllerEmail.value.text.isEmpty ||
+
         editControllerPassword1.value.text.isEmpty ||
         editControllerPassword2.value.text.isEmpty ||
         editControllerPhone.value.text.isEmpty) {
@@ -47,6 +51,7 @@ class _RegisterState extends State<Register> {
             password: editControllerPassword1.value.text.trim(),
             phone: editControllerPhone.value.text.trim(),
             username: editControllerName.value.text.trim(),
+            gender: genderVal
           )
           .then(
         (result) {
@@ -163,6 +168,45 @@ class _RegisterState extends State<Register> {
                     type: TextInputType.phone,
                   ),
                 ),
+                SizedBox(
+                  height: 10,
+                ),
+          Container(
+            margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            child: DropdownButton<String>(
+              value: dropdownValue,
+              icon: Icon(Icons.arrow_downward),
+              iconSize: 24,
+              elevation: 16,
+              style: TextStyle(color: AppThemeData.primary),
+              underline: Container(
+                height: 2,
+                color: Colors.white,
+              ),
+              onChanged: (String newValue) {
+                setState(() {
+                  dropdownValue = newValue;
+                });
+
+                if(dropdownValue == "Gender"){
+                  genderVal = "0";
+                }
+                if(dropdownValue == "Male"){
+                  genderVal = "1";
+                }
+                if(dropdownValue == "Female"){
+                  genderVal = "2";
+                }
+              },
+              items: <String>['Gender','Male','Female']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+          ),
                 SizedBox(
                   height: 10,
                 ),

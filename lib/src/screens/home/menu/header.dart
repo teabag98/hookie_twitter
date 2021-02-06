@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hookie_twitter/src/appstate_container.dart';
 import 'package:hookie_twitter/src/common/theme.dart';
 import 'package:hookie_twitter/src/models/user.dart';
+import 'package:hookie_twitter/src/screens/home/menu/profiledialog.dart';
 import 'package:hookie_twitter/src/service_locator.dart';
 import 'package:hookie_twitter/src/utils/nav_service.dart';
 import 'package:hookie_twitter/src/widgets/iinkwell.dart';
@@ -128,7 +129,9 @@ class _HeaderState extends State<Header> {
           ),
           IInkWell(
             child: _avatar(),
-            onPress: _onAvatarClick,
+            onPress:() {
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProfileDialog()));
+            }
           ),
         ],
       ),
@@ -139,8 +142,9 @@ class _HeaderState extends State<Header> {
     return Container(
       child: CircleAvatar(
         backgroundImage:
-            AssetImage(user.profilePic ?? 'assets/images/user.jpg'),
+            AssetImage('assets/images/useAvatar.png'),
         radius: 12,
+        foregroundColor: Colors.cyan,
       ),
       margin: EdgeInsets.only(left: 5, top: 2, bottom: 2, right: 10),
     );

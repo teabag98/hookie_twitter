@@ -84,7 +84,7 @@ class StateContainerState extends State<StateContainer> {
     //   }
     // });
 
-    // sl.get<SharedPrefsUtil>().getDefaultPay().then((payInt) {
+    // sl.get<sSharedPrefsUtil>().getDefaultPay().then((payInt) {
     //   if (payInt != null) {
     //     setState(() {
     //       pay = payInt;
